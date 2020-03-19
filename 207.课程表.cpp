@@ -48,7 +48,33 @@
 // @lc code=start
 class Solution {
 public:
+    /*
+    * 分析：实际上就是检测邻接表表示的有向图中是否存在环
+    * 方法：拓朴排序（DFS或BFS）
+    */
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> inDegrees(numCourses + 1);
+        for (vector<int> line : prerequisites) {
+            for (int dot : line) {
+                inDegrees[dot] += 1;
+            }
+        }
+
+        queue<int> que;
+        for (int dot : inDegrees) {
+            if (dot == 0) {
+                que.push(dot);
+                for (vector<int> line : prerequisites) {
+                    if (line[0] == dot) {
+                        for (int i = 1; i < line.size(); i++) {
+                            inDegrees[i] -= 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        
 
     }
 };
